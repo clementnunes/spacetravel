@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang='fr'>
+<head>
+    <title>SpaceTravel</title>
+    <link rel='shortcut icon' type='image/png' href='img/favicon.png'/>
+    <link rel='stylesheet' href='css.css'/>
+    <link rel='stylesheet' href='bootstrap.css' type='text/css'/>
+    <link rel="stylesheet" href="bootstrap-min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" http-equiv='Content-Type' charset='UTF-8'/>
+</head>
+
+<body>
+
+<nav>
+    <div>
+        <a href='index.html'>
+            <img alt='logo' src='img/test.png'/>
+        </a>
+    </div>
+</nav>
+
+
+<div class="main">
+    <div class="wallpaper" id="wp">
+        <div class="planets">
+            <div id="seeEarth" onclick="openModal('earth')">
+                <img src="img/earth_rotating.gif" alt="see earth"/>
+            </div>
+            <div id="seeMars" onclick="openModal('mars')">
+                <img src="img/mars_rotating.gif" alt="see mars"/>
+            </div>
+            <a href="insight" id="insight">
+                <img src="img/weather_icon.png" alt="insight"/>
+            </a>
+        </div>
+
+        <p class="reveal">Les dernières informations de SpaceX !</p>
+        <button type="button" class="reveal button-wp" onclick="openModal('spacex')">Découvrir</button>
+    </div>
+
+    <section class="subsection">
+        <div class="main-title reveal">
+            <h1>Voyagez à travers Internet !</h1>
+            <p>Lire nos articles dans l'espace</p>
+        </div>
+
+        <div class="main-img reveal">
+            <img alt='logo' src='img/astronaut1.png'/>
+            <img alt='logo' src='img/astronaut2.png'/>
+            <img alt='logo' src='img/astronaut3.png'/>
+        </div>
+    </section>
+
+    <div class="main-button reveal">
+        <a href="articles.html">Lire</a>
+    </div>
+
+    <div class="wallpaper" id="wp1">
+        <p class='reveal'>Chaque jour, découvrez un nouveau fait</p>
+        <button type="button" class='reveal button-wp' onclick="openModal('apod')">Je veux !</button>
+    </div>
+
+    <div class='modal hidden-modal' id="earth">
+        <span class="close-modal" onclick="openModal('earth')">×</span>
+        <div class="head-modal">
+            <img src="img/nasa.png" alt="logo_nasa"/>
+        </div>
+        <div class='body-modal'>
+            <p id="epic_date">Earth picture from EPIC on </p>
+            <img id="epic_img" src="" alt="earth"/>
+        </div>
+    </div>
+
+    <div class='modal hidden-modal' id="mars">
+        <span class="close-modal" onclick="openModal('mars')">×</span>
+        <div class="head-modal">
+            <img src="img/nasa.png" alt="logo_nasa"/>
+        </div>
+        <div class='body-modal'>
+            <p id="mars_date">Mars picture from Rover on </p>
+            <div class="modal_sep">
+                <p class="modal-p" id="mars_camera">Camera Name : </p>
+                <p class="modal-p" id="mars_rover">Rover Name : </p>
+            </div>
+            <div class="modal_sep">
+                <p class="modal-p" id="mars_status">Status : </p>
+                <p class="modal-p" id="mars_pictures">Number of pictures taken : </p>
+            </div>
+            <img id="mars_img" src="" alt="mars"/>
+        </div>
+    </div>
+
+    <div class='modal hidden-modal' id="apod">
+        <span class="close-modal" onclick="openModal('apod')">×</span>
+        <div class="head-modal">
+            <img src="img/nasa.png" alt="logo_nasa"/>
+        </div>
+        <div class='body-modal'>
+            <div class="min-wallpaper" id="apod_img">
+                <p id="apod_title">SpaceTravel</p>
+            </div>
+            <div class="modal_sep">
+                <p class="modal-p" id="apod_date"></p>
+                <p class="modal-p" id="apod_copyright"></p>
+            </div>
+            <p id="apod_content"></p>
+        </div>
+    </div>
+
+    <div class='modal hidden-modal' id="spacex">
+        <span class="close-modal" onclick="openModal('spacex')">×</span>
+        <div class="head-modal">
+            <img src="img/spacex.png" alt="logo_spacex" id="spacex_logo"/>
+            <h1 class="h1-modal"></h1>
+        </div>
+        <div class='body-modal'>
+            <div class="min-wallpaper" id="spacex_img">
+                <p id="spacex_title">SpaceTravel</p>
+            </div>
+            <div class="modal_sep">
+                <p class="modal-p" id="spacex_date"></p>
+                <p class="modal-p" id="spacex_flight"></p>
+                <p class="modal-p" id="spacex_launchsite"></p>
+            </div>
+            <p id="spacex_content"></p>
+            <div class="modal_sep">
+                <p class="modal-p" id="spacex_rockets"></p>
+                <p class="modal-p" id="spacex_type"></p>
+            </div>
+
+            <div class="modal_sep" style="height: 75px">
+                <p id="success" class="modal-p">Success</p>
+                <img id="spacex_success" src="" alt="success"/>
+            </div>
+        </div>
+    </div>
+    <div class="overlay"></div>
+
+    <footer>
+        <div class="f-ctn reveal">
+            <div class="f-s-ctn">
+                <img src="img/test.png"/>
+                <h1>- SpaceTravel</h1>
+            </div>
+        </div>
+        <div class="ctn-f-middle reveal">
+            <div class="sf-middle">
+                <a href="apropos.html">Nous découvrir</a>
+            </div>
+        </div>
+        <div class="copyright reveal">
+            <div class="border"></div>
+            <p id="credits">Crédits : NASA, SpaceX</p>
+            <div style='width:2%; height:1px; background-color: white; margin:auto'></div>
+            <p id="p_copyright">© SpaceTravel, Ltd. 2020. All rights reserved</p>
+        </div>
+    </footer>
+</div>
+
+
+<script>
+
+    window.onbeforeunload = function () { window.scrollTo(0,0); }
+
+    function openModal(id){
+        window.scrollTo(0,0);
+
+        let modal = document.getElementById(id);
+        let overlay = document.getElementsByClassName("overlay")[0];
+
+        if(modal.classList.contains("hidden-modal")){
+            modal.classList.remove("hidden-modal");
+            overlay.style.display = "flex";
+        }
+        else{
+            modal.classList.add("hidden-modal");
+            overlay.style.display = "none";
+        }
+    }
+
+    function dateToString(stringDate){
+        stringDate = stringDate.replace(/-/g, "/");
+        let date = new Date(stringDate);
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        return `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    }
+
+    function getApod(){
+        let title = document.getElementById("apod_title");
+        let img = document.getElementById("apod_img");
+        let content = document.getElementById("apod_content");
+        let copyright = document.getElementById("apod_copyright");
+        let p_date = document.getElementById("apod_date");
+
+        fetch("https://api.nasa.gov/planetary/apod?api_key=I2raKKMMlFG6eemlD8nfAXIQiVfqRUC0cU59piEE").then(function(response) {
+            let contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                return response.json().then(function (data) {
+                    content.innerHTML = data.explanation;
+                    title.innerHTML = data.title;
+                    img.style.backgroundImage = `url('${data.hdurl}')`;
+
+                    p_date.innerHTML = dateToString(data.date);
+                    if(data.copyright !== undefined){
+                        copyright.innerHTML = data.copyright;
+                    }
+                });
+            } else {
+                console.log("Oops, nous n'avons pas du JSON!");
+            }
+        });
+    }
+
+    function getImageFromEPIC(image, date){
+        let day = ("0" + date.getDate()).slice(-2);
+        let month = ("0" + (date.getMonth() + 1)).slice(-2);
+        let p_date = document.getElementById("epic_date");
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+        fetch(`https://api.nasa.gov/EPIC/archive/natural/${date.getFullYear()}/${month}/${day}/png/${image}.png?api_key=I2raKKMMlFG6eemlD8nfAXIQiVfqRUC0cU59piEE`)
+            .then(response => response.blob())
+            .then(images => {
+                let img = document.getElementById("epic_img");
+                let objectURL = URL.createObjectURL(images);
+                img.src = objectURL;
+                p_date.innerHTML += `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+            });
+    }
+
+    function getLastEPIC(){
+        fetch("https://api.nasa.gov/EPIC/api/natural/images?api_key=I2raKKMMlFG6eemlD8nfAXIQiVfqRUC0cU59piEE").then(function(response) {
+            let contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                return response.json().then(function (data) {
+                    if(data.length > 0){
+                        let stringDate = data[0].date;
+                        stringDate = stringDate.replace(/-/g, "/");
+                        let date = new Date(stringDate);
+                        getImageFromEPIC(data[0].image, date);
+                    }
+                });
+            } else {
+                console.log("Oops, nous n'avons pas du JSON!");
+            }
+        });
+    }
+
+    function getMars(){
+        let rdm = Math.floor(Math.random() * 35); // 35 : nbr de pages sur l'api
+        let img = document.getElementById("mars_img");
+        let camera = document.getElementById("mars_camera");
+        let rover = document.getElementById("mars_rover");
+        let status = document.getElementById("mars_status");
+        let pictures = document.getElementById("mars_pictures");
+        let p_date = document.getElementById("mars_date");
+
+        fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=${rdm}&api_key=I2raKKMMlFG6eemlD8nfAXIQiVfqRUC0cU59piEE`).then(function(response) {
+            let contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                return response.json().then(function (data) {
+                    rdm = Math.floor(Math.random() * data.photos.length);
+                    img.src = `${data.photos[rdm].img_src}`;
+
+                    p_date.innerHTML += dateToString(data.photos[rdm].earth_date);
+
+                    rover.innerHTML += data.photos[rdm].rover.name;
+                    status.innerHTML += data.photos[rdm].rover.status;
+                    pictures.innerHTML += data.photos[rdm].rover.total_photos;
+                    camera.innerHTML += data.photos[rdm].camera.full_name;
+                });
+            } else {
+                console.log("Oops, nous n'avons pas du JSON!");
+            }
+        });
+    }
+
+    function utcToSring(date){
+        let d = new Date(date);
+            let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        return `${days[d.getDay()]} ${d.getUTCDate()} ${months[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+    }
+
+    function getSpaceX(){
+        let title = document.getElementById("spacex_title");
+        let img = document.getElementById("spacex_img");
+        let content = document.getElementById("spacex_content");
+        let flight = document.getElementById("spacex_flight");
+        let date = document.getElementById("spacex_date");
+        let launch = document.getElementById("spacex_launchsite");
+        let rockets = document.getElementById("spacex_rockets");
+        let type = document.getElementById("spacex_type");
+        let success = document.getElementById("spacex_success");
+
+        fetch("https://api.spacexdata.com/v3/launches/latest").then(function(response) {
+            let contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                return response.json().then(function (data) {
+                    console.log(data);
+                    content.innerHTML = data.details;
+                    title.innerHTML = data.mission_name;
+                    if(data.links.flickr_images.length){
+                        img.style.backgroundImage = `url('${data.links.flickr_images[Math.floor(Math.random() * data.links.flickr_images.length)]}')`;
+                    }
+
+                    flight.innerHTML = "Flight Number : " + data.flight_number;
+                    date.innerHTML = utcToSring(data.launch_date_utc);
+                    launch.innerHTML = data.launch_site.site_name;
+                    rockets.innerHTML = data.rocket.rocket_name;
+                    type.innerHTML= data.rocket.rocket_type;
+
+                    if(data.launch_success === true){
+                        success.src = "img/yes.png";
+                    }
+                    else if(data.launch_success === false){
+                        success.src = "img/no.png";
+                    }
+                    else{
+                        success.src = "img/bell.png";
+                    }
+                });
+            } else {
+                console.log("Oops, nous n'avons pas du JSON!");
+            }
+        });
+    }
+
+    (function(){
+        getApod();
+        getSpaceX()
+        getLastEPIC();
+        getMars();
+    })();
+
+    (function(){
+        // DEFIL //
+        const ratio = 0.1;
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: ratio
+        };
+
+        const handleIntersect = function(entries, observer){
+            entries.forEach(function(entry){
+                if(entry.intersectionRatio > ratio){
+                    entry.target.classList.add('reveal-visible');
+                    entry.target.classList.remove('reveal');
+                    observer.unobserve(entry.target);
+                }
+            })
+        };
+
+        const observer = new IntersectionObserver(handleIntersect, options);
+        const targets = document.querySelectorAll('.reveal');
+        targets.forEach(function(target){
+            observer.observe(target);
+        });
+    })();
+</script>
+
+</body>
+</html>
+

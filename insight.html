@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang='fr'>
+<head>
+    <title>SpaceTravel</title>
+    <link rel='shortcut icon' type='image/png' href='img/favicon.png'/>
+    <link rel='stylesheet' href='css.css'/>
+    <link rel='stylesheet' href='bootstrap.css' type='text/css'/>
+    <link rel="stylesheet" href="bootstrap-min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" http-equiv='Content-Type' charset='UTF-8'/>
+</head>
+
+<body>
+
+<nav>
+    <div>
+        <a href='index.html'>
+            <img alt='logo' src='img/test.png'/>
+        </a>
+    </div>
+</nav>
+
+
+<div class="main">
+    <div class="wp-insight" id="wp-insight2">
+        <div>
+            <h1>Mars Weather</h1>
+            <p>NASA’s InSight Mars lander takes continuous weather measurements (temperature, wind, pressure) on the surface of Mars at Elysium Planitia, a flat, smooth plain near Mars’ equator.</p>
+            <p>This API provides per-Sol summary data for each of the last seven available Sols (Martian Days). As more data from a particular Sol are downlinked from the spacecraft (sometimes several days later), these values are recalculated, and consequently may change as more data are received on Earth.</p>
+        </div>
+    </div>
+
+    <section class="subsection" style="padding-bottom: 4%">
+        <div class="main-title insight-sub-title">
+            <h1>Mars rover, what is it ?</h1>
+            <p>A Mars rover is a motor vehicle that travels across the surface of the planet Mars to discover it landed on July 4, 1997 by NASA. </p>
+        </div>
+
+        <div class="main-img">
+            <img alt='logo' src='img/mars_rover.png' id="img_rover"/>
+        </div>
+    </section>
+
+    <div class="wp-insight" id="wp-insight">
+        <h2 id="wp_today">Fetching Weather</h2>
+        <div class="insight-current-weather">
+            <div class="insight_title">
+                <h2 id="current-sol">Sol 547</h2>
+                <h3 id="current-date">June 10</h3>
+            </div>
+            <div class="insight-separator" style="margin: 15px auto;"></div>
+            <div class="insight-lh-weather">
+                <h3 id="current-high">High: -1° C</h3>
+                <h3 id="current-low">Low: -92° C</h3>
+            </div>
+        </div>
+        <div class="insight-week-weather"></div>
+    </div>
+    <div class="insight-table">
+        <div class="table-title">
+            <h2>Weather Table</h2>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Time</th>
+                    <th colspan="3">Air Temperature</th>
+                    <th colspan="4">Wind Speed</th>
+                    <th colspan="3">Pressure</th>
+                </tr>
+            </thead>
+            <tbody id="insight_table">
+                <tr>
+                    <th>Date</th>
+                    <th>Sol</th>
+                    <th>Max.</th>
+                    <th>Avg.</th>
+                    <th>Min.</th>
+                    <th>Max.</th>
+                    <th>Avg.</th>
+                    <th>Min.</th>
+                    <th>Direction</th>
+                    <th>Max.</th>
+                    <th>Avg.</th>
+                    <th>Min.</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <div class="f-ctn">
+            <div class="f-s-ctn">
+                <img src="img/test.png"/>
+                <h1>- SpaceTravel</h1>
+            </div>
+        </div>
+        <div class="ctn-f-middle">
+            <div class="sf-middle">
+                <a href="apropos.html">Nous découvrir</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="border"></div>
+            <p id="credits">Crédits : NASA, SpaceX</p>
+            <div style='width:2%; height:1px; background-color: white; margin:auto'></div>
+            <p id="p_copyright">© SpaceTravel, Ltd. 2020. All rights reserved</p>
+        </div>
+    </footer>
+</div>
+
+
+<script>
+
+    window.onbeforeunload = function () { window.scrollTo(0,0); }
+
+    function dateToString(stringDate){
+        stringDate = stringDate.replace(/-/g, "/");
+        let date = new Date(stringDate);
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        return `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    }
+
+    function utcToSring(date){
+        let d = new Date(date);
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        return `${d.getUTCDate()} ${months[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+    }
+
+    function getTemplate(data, sol){
+        console.log(data);
+        let container = document.getElementsByClassName("insight-week-weather")[0];
+
+        let box = document.createElement("div");
+        box.classList.add("insight-day");
+
+        let top_container = document.createElement("div");
+        top_container.classList.add("insight-day-top");
+
+        let h2 = document.createElement("h2");
+        h2.innerHTML = "Sol " + sol;
+        top_container.append(h2);
+
+        let h3 = document.createElement("h3");
+        h3.innerHTML = utcToSring(data.First_UTC);
+        top_container.append(h3);
+
+        let sep = document.createElement("div");
+        sep.classList.add("insight-seperator");
+
+        let bottom_container = document.createElement("div");
+        bottom_container.classList.add("insight-day-bottom");
+
+        h3 = document.createElement("h3");
+        h3.innerHTML = "High: " + Math.floor(data.AT.mx) + "° C";
+        bottom_container.append(h3);
+
+        h3 = document.createElement("h3");
+        h3.innerHTML = "Low: " + Math.floor(data.AT.mn) + "° C";
+        bottom_container.append(h3);
+
+        box.append(top_container, sep, bottom_container);
+        container.append(box);
+    }
+
+    function setTable(data, sol){
+        console.log(sol);
+        let sets = [["", utcToSring(data.First_UTC)], ["", sol], ["°C", data.AT.mx], ["°C", data.AT.av], ["°C", data.AT.mn], ["m/s", data.HWS.mx], ["m/s", data.HWS.av], ["m/s", data.HWS.mn], ["", data.WD.most_common.compass_point], ["Pa", data.PRE.mx], ["Pa", data.PRE.av], ["Pa", data.PRE.mn]];
+        let tbody = document.getElementById("insight_table");
+        let tr = document.createElement("tr");
+        let td;
+
+        for(let i = 0; i < sets.length; i++){
+            td = document.createElement("td");
+            if(!isNaN(sets[i][1])){
+                if(sets[i][0] !== ""){
+                    td.innerHTML = `${Math.round((sets[i][1] + Number.EPSILON) * 10) / 10} ${sets[i][0]}`;
+                }
+                else{
+                    td.innerHTML = sets[i][1]; // SOL
+                    td.classList.add("td-bold");
+                }
+            }
+            else{
+                if(i === 0){ // date
+                    td.innerHTML = sets[i][1];
+                    td.classList.add("td-bold");
+                }
+                else if(i === 8){ // wind direction
+                    let img = document.createElement("img");
+                    img.classList.add("wind-arrow");
+                    img.src = "img/arrow.png";
+                    console.log(data.WD.most_common.compass_degrees);
+                    let deg = data.WD.most_common.compass_degrees;
+
+                    img.style.mozTransform = `rotate(${deg}deg)`;
+                    img.style.msTransform = `rotate(${deg}deg)`;
+                    img.style.oTransform = `rotate(${deg}deg)`;
+                    img.style.transform = `rotate(${deg}deg)`;
+                    td.append(img);
+                }
+                else{
+                    td.innerHTML = sets[i][1];
+                }
+            }
+            tr.append(td);
+        }
+
+        tbody.append(tr);
+    }
+
+    function setToday(data, sol){
+        let hSol = document.getElementById("current-sol");
+        hSol.innerHTML = "Sol " + sol;
+
+        let date = document.getElementById("current-date");
+        date.innerHTML = utcToSring(data.First_UTC);
+
+        let high = document.getElementById("current-high");
+        high.innerHTML = "High: " + Math.floor(data.AT.mx) + "° C";
+
+        let low = document.getElementById("current-low");
+        low.innerHTML = "Low: " + Math.floor(data.AT.mn) + "° C";
+    }
+
+    function getInsight(){
+        fetch("https://api.nasa.gov/insight_weather/?api_key=I2raKKMMlFG6eemlD8nfAXIQiVfqRUC0cU59piEE&feedtype=json&ver=1.0").then(function(response) {
+            let contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                return response.json().then(function (data) {
+                    console.log(data);
+                    if(data && data.sol_keys !== undefined){
+                        console.log(data.sol_keys[data.sol_keys.length - 1]);
+                        setToday(data[data.sol_keys[data.sol_keys.length - 1]], data.sol_keys[data.sol_keys.length - 1]);
+                        for(let i = 0; i < data.sol_keys.length; i++){
+                            getTemplate(data[data.sol_keys[i]], data.sol_keys[i]);
+                            setTable(data[data.sol_keys[data.sol_keys.length - i - 1]], data.sol_keys[data.sol_keys.length - i - 1]);
+                        }
+                    }
+
+                });
+            } else {
+                console.log("Oops, nous n'avons pas du JSON!");
+            }
+        });
+    }
+
+    (function(){
+        getInsight();
+    })();
+</script>
+
+</body>
+</html>
+

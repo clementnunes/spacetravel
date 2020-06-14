@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang='fr'>
+<head>
+    <title>SpaceTravel</title>
+    <link rel='shortcut icon' type='image/png' href='img/favicon.png'/>
+    <link rel='stylesheet' href='css.css'/>
+    <link rel='stylesheet' href='bootstrap.css' type='text/css'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" http-equiv='Content-Type' charset='UTF-8'/>
+</head>
+
+<body>
+
+<nav>
+    <div>
+        <a href='index.html'>
+            <img alt='logo' src='img/test.png'/>
+        </a>
+    </div>
+</nav>
+
+<div class="main" id="main-article">
+    <div class="min-wallpaper" id="article-wp">
+        <p>SpaceTravel</p>
+    </div>
+
+    <div class="main-act"></div>
+
+    <div id="article-footer" class="article-footer">
+        <button type="button" id="article-prev" style="visibility: hidden;" onclick="back()"><</button>
+        <p>Page <span id="page">1</span></p>
+        <button type="button" id="article-sup" onclick="move()">></button>
+    </div>
+
+    <footer>
+        <div class="f-ctn">
+            <div class="f-s-ctn">
+                <img src="img/test.png"/>
+                <h1>- SpaceTravel</h1>
+            </div>
+        </div>
+        <div class="ctn-f-middle">
+            <div class="sf-middle">
+                <a href="apropos.html">Nous découvrir</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="border"></div>
+            <p id="credits">Crédits : NASA, SpaceX</p>
+            <div style='width:2%; height:1px; background-color: white; margin:auto'></div>
+            <p id="p_copyright">© SpaceTravel, Ltd. 2020. All rights reserved</p>
+        </div>
+    </footer>
+</div>
+<script>
+
+    function dateToString(stringDate){
+        stringDate = stringDate.replace(/-/g, "/");
+        let date = new Date(stringDate);
+        let months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+        let days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+        return `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    }
+
+    function getArticle(data, id){
+        let main = document.getElementsByClassName("main-act")[0];
+
+        let article = document.createElement("div"); // on crée le div.act
+        article.classList.add("act"); // on lui donne pour class "act"
+        article.setAttribute("data-id", id);
+
+        let ctn_img = document.createElement("div");
+        ctn_img.classList.add("min-wallpaper", "act-img");
+        ctn_img.style.backgroundImage = `url('${data["image-url"]}')`;
+
+        let ctn_titre = document.createElement("div"); // on crée le div qui contient le titre
+        ctn_titre.classList.add("act-title"); // on lui ajoute la classe "act-title"
+
+        let titre = document.createElement("h3"); // on crée le titre
+        titre.innerHTML = data.title;
+        ctn_titre.append(titre); // on insère le titre dans le div qui lui correspond
+
+        let ctn_auteur = document.createElement("div");
+        ctn_auteur.classList.add("act-author");
+
+        let auteur = document.createElement("h4");
+        auteur.innerHTML = data.author;
+        ctn_auteur.append(auteur);
+
+        let ctn_date = document.createElement("div");
+        ctn_date.classList.add("act-descr")
+
+        let p_date = document.createElement("p");
+        p_date.innerHTML = dateToString(data.date);
+        ctn_date.append(p_date);
+
+        let ctn_contenu = document.createElement("div");
+        ctn_contenu.classList.add("act-content");
+
+        let contenu = document.createElement("p");
+        contenu.innerHTML = `${data.content.slice(0, 500)}...`;
+        ctn_contenu.append(contenu);
+
+        let ctn_more = document.createElement("div");
+        ctn_more.classList.add("act-more");
+
+        let a = document.createElement("a");
+        a.innerHTML = "Lire l'article";
+        a.href = `article?id=${id}`;
+        a.rel = "noopener noreferrer";
+        a.target = "_blank";
+        ctn_more.append(a);
+
+        article.append(ctn_img, ctn_titre, ctn_auteur, ctn_date, ctn_contenu, ctn_more);
+
+        main.append(article);
+    }
+
+    function move(){
+        let n = 9; // n of elements displayed at the same time
+        let span = document.getElementById("page");
+        let page = Number(span.innerHTML);
+        let btn_prev = document.getElementById("article-prev");
+        let btn_up = document.getElementById("article-sup");
+        let max = document.getElementsByClassName("act");
+        max = max[max.length - 1].getAttribute("data-id");
+        let acts = document.querySelectorAll("div.act");
+
+        let start = page * n;
+
+        if(page > max){
+            return;
+        }
+
+        if(page + 1 >= 2){
+            btn_prev.style.visibility = "visible";
+        }
+
+        if((page + 1) * n >= max){
+            btn_up.style.visibility = "hidden";
+        }
+        else{
+            btn_up.style.visibility = "visible";
+        }
+
+        if(start - n > 0){
+            for(let i = start - n; i < start; i++){
+                acts[i].style.display = "none";
+            }
+        }
+        else{
+            for(let i = 0; i < n; i++){
+                acts[i].style.display = "none";
+            }
+        }
+
+        for(let i = start; i < start + n; i++){
+            acts[i].style.display = "flex";
+        }
+
+        span.innerHTML = (page + 1).toString();
+    }
+
+    function back(){
+        let n = 9; // n of elements displayed at the same time
+        let span = document.getElementById("page");
+        let page = Number(span.innerHTML);
+        let btn_prev = document.getElementById("article-prev");
+        let btn_up = document.getElementById("article-sup");
+        let max = document.getElementsByClassName("act");
+        max = max[max.length - 1].getAttribute("data-id");
+        let acts = document.querySelectorAll("div.act");
+
+        let start = (page - 1) * n;
+
+        if(page === 1){
+            return;
+        }
+
+        if(page - 1 === 1){
+            btn_prev.style.visibility = "hidden";
+        }
+
+        if((page - 1) < max/n){
+            btn_up.style.visibility = "visible";
+        }
+
+        for(let i = start - n; i < start; i++){
+            acts[i].style.display = "flex";
+        }
+
+        for(let i = start; i < start + n; i++){
+            acts[i].style.display = "none";
+        }
+
+        span.innerHTML = (page - 1).toString();
+    }
+
+    function jsonArticles(){
+        let acts;
+        let n = 9;
+
+        fetch("articles.json").then(function(response) {
+            let contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                return response.json().then(function (data) {
+                    for(let i = 0; i < data.length; i++){
+                        getArticle(data[i], i + 1);
+                    }
+
+                    acts = document.querySelectorAll("div.act");
+
+                    for(let i = 0; i < acts.length; i++){
+                        acts[i].style.display = "none";
+                    }
+
+                    for(let i = 0; i < n; i++){
+                        acts[i].style.display = "flex";
+                    }
+
+                    if(data.length === n){
+                        document.getElementById("article-footer").style.visibility = "hidden";
+                    }
+                });
+            } else {
+                console.log("Oops, nous n'avons pas du JSON!");
+            }
+        });
+    }
+
+    (function(){
+        jsonArticles();
+    })();
+</script>
+
+</body>
+</html>
+

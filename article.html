@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang='fr'>
+<head>
+    <title>SpaceTravel</title>
+    <link rel='shortcut icon' type='image/png' href='img/favicon.png'/>
+    <link rel='stylesheet' href='css.css'/>
+    <link rel='stylesheet' href='bootstrap.css' type='text/css'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" http-equiv='Content-Type' charset='UTF-8'/>
+</head>
+
+<body>
+
+<nav>
+    <div>
+        <a href='index.html'>
+            <img alt='logo' src='img/test.png'/>
+        </a>
+    </div>
+</nav>
+
+<div class="main" id="main-article">
+    <div class="min-wallpaper" id="article-wp">
+        <p>SpaceTravel</p>
+    </div>
+
+    <section class="main-article">
+        <div id="article-header" class="article-header">
+            <h1 id="article-title"></h1>
+            <h2 id="article-author"></h2>
+        </div>
+        <div id="article-content" class="article-body"></div>
+        <div id="article-footer" class="article-footer">
+            <a href="" class="article-link" id="article-prev" style="visibility: hidden;"><</a>
+            <a href="" target="_blank" rel="noopener noreferrer nofollow" class="article-link" id="article-url">Voir l'article original</a>
+            <a href="article.html?id=1" class="article-link" id="article-sup">></a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="f-ctn">
+            <div class="f-s-ctn">
+                <img src="img/test.png"/>
+                <h1>- SpaceTravel</h1>
+            </div>
+        </div>
+        <div class="ctn-f-middle">
+            <div class="sf-middle">
+                <a href="apropos.html">Nous découvrir</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="border"></div>
+            <p id="credits">Crédits : NASA, SpaceX</p>
+            <div style='width:2%; height:1px; background-color: white; margin:auto'></div>
+            <p id="p_copyright">© SpaceTravel, Ltd. 2020. All rights reserved</p>
+        </div>
+    </footer>
+</div>
+<script>
+    function getUrlVars() {
+        let vars = {};
+        let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+
+    function jsonArticles(id){
+        let title = document.getElementById("article-title");
+        let author = document.getElementById("article-author");
+        let content = document.getElementById("article-content");
+        let url = document.getElementById("article-url");
+        let wp = document.getElementById("article-wp");
+        let header = document.getElementById("article-header");
+        let footer = document.getElementById("article-footer");
+        let prev = document.getElementById("article-prev");
+        let sup = document.getElementById("article-sup");
+        let tmp; let p; let newContent;
+
+        fetch("articles.json").then(function(response) {
+            let contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                return response.json().then(function (data) {
+
+                    wp.style.backgroundImage = `url('${data[id]["image-url"]}')`;
+                    title.innerHTML = data[id]["title"];
+                    author.innerHTML = data[id]["author"];
+                    url.href = data[id]["url"];
+
+                    if(id > 0){
+                        prev.href = "article?id=" + id;
+                        if(data[id]["color"].length){
+                            prev.style.backgroundColor = data[id]["color"];
+                        }
+                    }
+
+                    sup.href = "article?id=" + (Number(id) + 2);
+
+                    if(data[id]["color"].length){
+                        url.style.backgroundColor = data[id]["color"];
+                        sup.style.backgroundColor = data[id]["color"];
+                        header.style.backgroundColor = data[id]["color"];
+                        footer.style.borderTop = "1px solid " + data[id]["color"];
+                    }
+
+                    tmp = data[id]["content"].split("[newline]");
+
+                    tmp.forEach(function(e){
+                        p = document.createElement("p");
+                        newContent = document.createTextNode(e);
+                        p.appendChild(newContent);
+                        p.style.color = data[id]['color'];
+                        content.append(p);
+                    });
+
+                });
+            } else {
+                console.log("Oops, nous n'avons pas du JSON!");
+            }
+        });
+    }
+    (function(){
+
+        let urls = getUrlVars();
+
+        console.log(urls);
+        if(urls !== undefined && urls !== null){
+            if(isNaN(urls.id) || urls.id <= 0){
+                //window.location = "index";
+                return;
+            }
+            else{
+                if(urls.id > 1){
+                    document.getElementById("article-prev").style.visibility = "visible";
+                }
+                jsonArticles(urls.id - 1);
+            }
+        }
+    })();
+</script>
+
+</body>
+</html>
+
